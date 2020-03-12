@@ -21,7 +21,7 @@ class ContactsTest extends TestCase
         $contact = Contact::first();
         $this->assertEquals('John Doe', $contact->name);
         $this->assertEquals('johndoe@email.com', $contact->email);
-        $this->assertEquals('23-07-1997', $contact->birthday);
+        $this->assertEquals('23-07-1997', $contact->birthday->format('d-m-Y'));
         $this->assertEquals('Foo Company', $contact->company);
     }
 
@@ -70,6 +70,21 @@ class ContactsTest extends TestCase
             'birthday' => $contact->birthday,
             'company' => $contact->company,
         ]);
+    }
+
+    /** @test */
+    public function contact_can_be_patched()
+    {
+        $contact = factory(Contact::class)->create();
+        
+        $response = $this->patch('/api/contacts/'. $contact->id, $this->data());
+
+        $contact = $contact->fresh();
+
+        $this->assertEquals('John Doe', $contact->name);
+        $this->assertEquals('johndoe@email.com', $contact->email);
+        $this->assertEquals('23-07-1997', $contact->birthday->format('d-m-Y'));
+        $this->assertEquals('Foo Company', $contact->company);
     }
 
     protected function data()
