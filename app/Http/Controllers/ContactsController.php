@@ -18,4 +18,9 @@ class ContactsController extends Controller
 
         Contact::create($validated);
     }
+
+    public function show(Contact $contact) 
+    {
+        return $contact;
+    }
 }

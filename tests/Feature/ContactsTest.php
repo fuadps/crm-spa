@@ -21,7 +21,7 @@ class ContactsTest extends TestCase
         $contact = Contact::first();
         $this->assertEquals('John Doe', $contact->name);
         $this->assertEquals('johndoe@email.com', $contact->email);
-        $this->assertEquals('23/07/1997', $contact->birthday);
+        $this->assertEquals('23-07-1997', $contact->birthday);
         $this->assertEquals('Foo Company', $contact->company);
     }
 
@@ -57,12 +57,27 @@ class ContactsTest extends TestCase
         $this->assertEquals('17-05-2020', Contact::first()->birthday->format('d-m-Y'));
     }
 
+    /** @test */
+    public function contact_can_be_retrieved()
+    {
+        $contact = factory(Contact::class)->create();
+        
+        $response = $this->get('/api/contacts/'. $contact->id );
+
+        $response->assertJson([
+            'name' => $contact->name,
+            'email' => $contact->email,
+            'birthday' => $contact->birthday,
+            'company' => $contact->company,
+        ]);
+    }
+
     protected function data()
     {
         return [
             'name' => 'John Doe',
             'email' => 'johndoe@email.com',
-            'birthday' => '23/07/1997',
+            'birthday' => '23-07-1997',
             'company' => 'Foo Company'
         ];
     }
