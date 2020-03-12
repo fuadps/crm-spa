@@ -22,6 +22,11 @@ class ContactsController extends Controller
         $contact->update($this->validatedData());
     }
 
+    public function destroy(Contact $contact) 
+    {
+        $contact->delete();
+    }
+
     public function validatedData()
     {
         return request()->validate([
