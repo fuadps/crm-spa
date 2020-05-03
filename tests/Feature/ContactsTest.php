@@ -32,7 +32,11 @@ class ContactsTest extends TestCase
 
         $response = $this->get('/api/contacts?api_token='. $user->api_token);
         $response->assertJsonCount(1)
-            ->assertJson([['id' => $contact->id]]);
+            ->assertJson([
+                'data' => [
+                    ['contact_id' => $contact->id]
+                ]
+            ]);
     }
     
     
@@ -98,10 +102,14 @@ class ContactsTest extends TestCase
         $response = $this->get('/api/contacts/'. $contact->id . '?api_token=' . $this->user->api_token);
 
         $response->assertJson([
-            'name' => $contact->name,
-            'email' => $contact->email,
-            'birthday' => $contact->birthday,
-            'company' => $contact->company,
+            'data' => [
+                'contact_id' => $contact->id,
+                'name' => $contact->name,
+                'email' => $contact->email,
+                'company' => $contact->company,
+                'birthday' => $contact->birthday->format('d/m/Y'),
+                'last_updated' => $contact->updated_at->diffForHumans(),
+            ]
         ]);
     }
 
