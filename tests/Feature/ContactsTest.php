@@ -49,7 +49,7 @@ class ContactsTest extends TestCase
     public function a_contact_can_be_added()
     {
         $this->withoutExceptionHandling();
-        $this->post('/api/contacts', $this->data());
+        $this->post('/api/contacts', array_merge($this->data()));
 
         $contact = Contact::first();
         $this->assertEquals('John Doe', $contact->name);
