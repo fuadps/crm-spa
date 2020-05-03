@@ -19,16 +19,25 @@ class ContactsController extends Controller
 
     public function show(Contact $contact) 
     {
+        if(request()->user()->isNot($contact->user))
+            return response([], 403);
+        
         return $contact;
     }
 
     public function update(Contact $contact) 
     {
+        if(request()->user()->isNot($contact->user))
+            return response([], 403);
+            
         $contact->update($this->validatedData());
     }
 
     public function destroy(Contact $contact) 
     {
+        if(request()->user()->isNot($contact->user))
+            return response([], 403);
+            
         $contact->delete();
     }
 
