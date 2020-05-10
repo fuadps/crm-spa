@@ -1,2 +1,2 @@
 # crm-spa
- Building SPA web app using Laravel and Vue
+ Building SPA web app using Laravel and Vue.
